@@ -10,11 +10,21 @@ public class Ball : MonoBehaviour
     private float startAmplitude;
 
     private Rigidbody rb;
+
+    public AudioSource audioSource;
+
+    public AudioClip leftPaddleClip;
+    public AudioClip rightPaddleClip;
+
+    
     // Start is called before the first frame update
     void Awake()
     {
         rb = gameObject.GetComponent<Rigidbody>();
         startAmplitude = amplitude;
+
+        // Audio stuff
+        audioSource = GetComponent<AudioSource>(); 
     }
 
     // Update is called once per frame
@@ -31,6 +41,14 @@ public class Ball : MonoBehaviour
         if (collision.gameObject.name == "PaddleLeft" || collision.gameObject.name == "PaddleRight")
         {
             //play sound
+            if(collision.gameObject.name == "PaddleLeft")
+            {
+                audioSource.PlayOneShot(leftPaddleClip);
+            }
+            else
+            {
+                audioSource.PlayOneShot(rightPaddleClip);
+            }
 
             amplitude += step;
             float offset = Mathf.Pow((transform.position.z - collision.transform.position.z), 2);
@@ -40,6 +58,8 @@ public class Ball : MonoBehaviour
                 ? new Vector3(amplitude, 0, offset)
                 : new Vector3(-amplitude, 0, offset);
         }
+        // Audio stuff
+        audioSource.PlayOneShot(leftPaddleClip); 
         
 
     }
