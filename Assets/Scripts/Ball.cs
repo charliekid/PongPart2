@@ -11,12 +11,13 @@ public class Ball : MonoBehaviour
 
     private Rigidbody rb;
 
-    public AudioSource audioSource;
+    private AudioSource audioSource;
 
     public AudioClip leftPaddleClip;
     public AudioClip rightPaddleClip;
+    public AudioClip tennisHitClip;
 
-    
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -43,11 +44,26 @@ public class Ball : MonoBehaviour
             //play sound
             if(collision.gameObject.name == "PaddleLeft")
             {
-                audioSource.PlayOneShot(leftPaddleClip);
+                if(rb.velocity.magnitude < 10)
+                {
+                    audioSource.PlayOneShot(leftPaddleClip);
+                } 
+                else
+                {
+                    audioSource.PlayOneShot(tennisHitClip);
+                }
+                
             }
             else
             {
-                audioSource.PlayOneShot(rightPaddleClip);
+                if (rb.velocity.magnitude < 10)
+                {
+                    audioSource.PlayOneShot(rightPaddleClip);
+                }
+                else
+                {
+                    audioSource.PlayOneShot(tennisHitClip);
+                }
             }
 
             amplitude += step;
@@ -58,10 +74,7 @@ public class Ball : MonoBehaviour
                 ? new Vector3(amplitude, 0, offset)
                 : new Vector3(-amplitude, 0, offset);
         }
-        // Audio stuff
-        audioSource.PlayOneShot(leftPaddleClip); 
         
-
     }
 
 
