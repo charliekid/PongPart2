@@ -17,6 +17,14 @@ public class Ball : MonoBehaviour
     public AudioClip rightPaddleClip;
     public AudioClip tennisHitClip;
 
+    private string lastObjectHit;
+
+    // Timer stuff for Power ups
+    private float waitTime = 10.0f;
+    private float timer = 0.0f;
+    private float visualTime = 0.0f;
+    private bool powerUpOn = false;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -44,6 +52,7 @@ public class Ball : MonoBehaviour
             //play sound
             if(collision.gameObject.name == "PaddleLeft")
             {
+                lastObjectHit = "PaddleLeft";
                 if(rb.velocity.magnitude < 10)
                 {
                     audioSource.PlayOneShot(leftPaddleClip);
@@ -51,11 +60,11 @@ public class Ball : MonoBehaviour
                 else
                 {
                     audioSource.PlayOneShot(tennisHitClip);
-                }
-                
+                } 
             }
             else
             {
+                lastObjectHit = "PaddleRight";
                 if (rb.velocity.magnitude < 10)
                 {
                     audioSource.PlayOneShot(rightPaddleClip);
@@ -65,6 +74,12 @@ public class Ball : MonoBehaviour
                     audioSource.PlayOneShot(tennisHitClip);
                 }
             }
+            if(collision.gameObject.name == "PowerUp")
+            {
+                // Give someone a power up!
+                powerUpOn = true;
+
+            }
 
             amplitude += step;
             float offset = Mathf.Pow((transform.position.z - collision.transform.position.z), 2);
@@ -73,9 +88,41 @@ public class Ball : MonoBehaviour
             rb.velocity = (collision.gameObject.name == "PaddleLeft")
                 ? new Vector3(amplitude, 0, offset)
                 : new Vector3(-amplitude, 0, offset);
+        }  
+    }
+    private void Update()
+    {
+        if (powerUpOn == true)
+        {
+            RunPowerUp();
         }
-        
     }
 
+    private void RunPowerUp()
+    {
+        // Figuring out which object we are changing
+        if (lastObjectHit.Equals("PaddleLeft"))
+        {
+            // do something to left paddle
+            //yield return new WaitForSeconds(10f);
+        }
+        else 
+        {
+            // do this for only 10 seconds
+            //yield return new WaitForSeconds(10f);
+        }
+        /*timer += Time.delta;
 
+        // Check to see if we are over 10 seconds 
+        // apparently on Unity's documentation they substract 2 cause it was
+        // etter than resetting to zero.
+        if (timer > waitTime)
+        {
+            visualTime = timer;
+
+            // Remove the recorded 2 seconds
+            timer = timer - waitTime;
+            powerUpOn = false;
+        }*/
+    }
 }

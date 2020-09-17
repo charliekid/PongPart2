@@ -26,18 +26,37 @@ public class ScoreKeeper : MonoBehaviour
     private void RefreshScore()
     {
         //some function to update the Text string
+        leftTextScore.text = leftScore + "";
+        Debug.Log("Left score is " + leftScore); 
+        rightTextScore.text = rightScore + "";
+        Debug.Log("Right score is " + rightScore);
+
     }
     public void AddScore(Goal scoringSide)
     {
         if (scoringSide == leftGoal)
         {
             rightScore += 1;
+            rightTextScore.color = NewColor();
         }
 
         else
         {
             leftScore += 1;
+            leftTextScore.color = NewColor();
         }
         RefreshScore();
+    }
+    /**
+    * Returns the color when the object hits something
+    * @return color - the color object
+    */
+    private Color NewColor()
+    {
+        // uses random values for RGB
+        Color color = new Color(UnityEngine.Random.value,
+                                UnityEngine.Random.value,
+                                UnityEngine.Random.value);
+        return color;
     }
 }
