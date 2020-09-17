@@ -14,9 +14,9 @@ public class ScoreKeeper : MonoBehaviour
     [SerializeField] private GameManager gameManager;
 
 
-    private int leftScore = 0;
+    public static int leftScore = 0;
 
-    private int rightScore = 0;
+    public static int rightScore = 0;
     // Start is called before the first frame update
     void Start()
     {
